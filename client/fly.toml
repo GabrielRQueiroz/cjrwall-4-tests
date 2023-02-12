@@ -1,0 +1,40 @@
+# fly.toml file generated for cjrwall-client on 2023-02-11T02:02:40-03:00
+
+app = "cjrwall-client"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  builder = "heroku/buildpacks:20"
+
+[env]
+  VITE_CLIENT_ID="213640089395-to29abcg0jq5si1v7gblq27arkhf02td.apps.googleusercontent.com"
+  VITE_CJR_WALL_API_URL="https://cjrwall-server.fly.dev"
+
+[experimental]
+  auto_rollback = true
+  cmd="yarn install && yarn build && npx http-server ./dist"
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [services.ports.http_options.response_headers]
+    Access-Control-Allow-Origin = "https://cjrwall-client.fly.dev"

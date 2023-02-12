@@ -1,0 +1,51 @@
+# fly.toml file generated for cjrwall-server on 2023-02-11T02:25:42-03:00
+
+app = "cjrwall-server"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  builder = "heroku/buildpacks:20"
+
+[env]
+  CLIENT_URL="https://cjrwall-client.fly.dev"
+  DATABASE_URL="postgres://postgres:zdrf83HPXu8x04T@cjr-wall-db.internal:5432/cjr_wall_db?schema=public"
+  JWT_ACCESS_TOKEN_SECRET="hbgjuyvhjgvktuytuyfighjuyf6it578uy67frit5867fuirty58g7t8uy56fir7f5iruy68t7uy56eir8uy67erit458"
+  JWT_REFRESH_TOKEN_SECRET="uy7bg8fghu77uy6fg5d6fst4f56dgh8gij7j0hk9j0h8klo9b8ghij7nf7dyghv6"
+  JWT_ACCESS_TOKEN_EXPIRATION_TIME=7200
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME=72000
+  GOOGLE_CLIENT_ID="213640089395-to29abcg0jq5si1v7gblq27arkhf02td.apps.googleusercontent.com"
+
+[experimental]
+  auto_rollback = true
+  cmd="yarn start:prod"
+
+[[services]]
+  http_checks = []
+  internal_port = 3000
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
+
+  [services.ports.http_options.response_headers]
+    Access-Control-Allow-Origin = "https://cjrwall-client.fly.dev"
