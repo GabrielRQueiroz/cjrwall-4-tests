@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sudo certbot -n -d YOUR_ELASTICBEANSTALK_URL_HERE --nginx --agree-tos --email YOUR_EMAIL
+sudo certbot -n -d cjrwallserver.eba-tuwdvavz.sa-east-1.elasticbeanstalk.com --nginx --agree-tos --email gabrielr.queiroz@gmail.com
