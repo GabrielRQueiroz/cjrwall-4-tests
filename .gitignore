@@ -127,3 +127,6 @@ coverage
 
 .space
 Spacefile
+
+.catalystrc
+catalyst.json
